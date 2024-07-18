@@ -63,7 +63,7 @@ numbersBtn.forEach(btn => {
 });
 
 signBtn.addEventListener('click', () => {
-  inputNumber = -inputNumber;
+  inputNumber = -inputNumber + '';
   displayOutput.value = inputNumber;
 });
 
@@ -86,7 +86,7 @@ backspaceBtn.addEventListener('click', () => {
     inputNumber = '0';
   } else {
     inputNumber = inputNumber.slice(0, -1);
-    if (inputNumber == '0.') {
+    if (inputNumber == '0.' || inputNumber == '-' || inputNumber == '-0.') {
       inputNumber = '0';
     }
   }
