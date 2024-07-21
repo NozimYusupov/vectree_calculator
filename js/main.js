@@ -9,12 +9,16 @@ const clearBtn = document.getElementById('clear');
 const percentBtn = document.getElementById('percent');
 const numbersBtn = document.querySelectorAll('.btn-number');
 const pointBtn = document.getElementById('point');
-const functionsBtn = document.querySelectorAll('btn-function');
+const functionsBtn = document.querySelectorAll('.btn-func');
 const displayOutput = document.getElementById('display');
 
 let inputNumber = null;
+let firstNumber = null;
+let operator = null;
+let secondNumber = null;
+let result = null;
 
-
+displayOutput.value = 0;
 function add(a, b) {
   return a + b;
 }
@@ -49,6 +53,9 @@ function operate(operator, a, b) {
 clearBtn.addEventListener('click', () => {
   displayOutput.value = '';  
   inputNumber = null;
+  firstNumber = null;
+  secondNumber = null;
+  operator = null;
 });
 
 numbersBtn.forEach(btn => {
@@ -91,4 +98,54 @@ backspaceBtn.addEventListener('click', () => {
     }
   }
     displayOutput.value = inputNumber;
+});
+/*
+addBtn.addEventListener('click', () => {
+  if (firstNumber === null) { 
+    firstNumber = Number(inputNumber); 
+  }
+  
+ 
+  console.log('first number', firstNumber);
+  console.log('second number', secondNumber);
+  operator = '+';
+  inputNumber = null;
+  secondNumber = null;
+});
+*/
+
+functionsBtn.forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    operat = e.target.id;
+    console.log('operat ', operat);
+    operator = null;
+    switch(operat) {
+      case 'multi'  : operator = '*'; break;
+      case 'divide' : operator = '/'; break;
+      case 'subtract' : operator = '-'; break;
+      case 'add' : operator = '+'; break;
+      default: break;
+    }
+    if (firstNumber === null) {
+      firstNumber = Number(inputNumber);
+    }
+    console.log('fN ', firstNumber);
+    console.log('sN ', secondNumber);
+    console.log('operator ', operator);
+    inputNumber = null;
+    secondNumber = null;
+  
+  });
+});
+
+equalBtn.addEventListener('click', () => {
+  if (secondNumber === null) {
+    secondNumber = Number(inputNumber);
+  }
+  result = operate(operator, firstNumber, secondNumber);
+  displayOutput.value = result;
+  firstNumber = result;
+  console.log('secondNumber ' , secondNumber);
+  console.log('firstNumber ', firstNumber);
+  inputNumber = result;
 });
