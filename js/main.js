@@ -67,7 +67,7 @@ clearBtn.addEventListener('click', () => {
 
 numbersBtn.forEach(btn => {
   btn.addEventListener('click', (e) => {
-    if (inputNumber === null || inputNumber === '0') {
+    if (inputNumber === null || inputNumber === '0' || "Divide by zero!" ) {
       inputNumber = e.target.textContent;
     } else {
       inputNumber += e.target.textContent;
@@ -121,7 +121,7 @@ functionsBtn.forEach(btn => {
       default: break;
     }
 
-    if (firstNumber === null) {
+    if (firstNumber === null || 'Divide by zero!') {
       firstNumber = Number(inputNumber);
     } 
    
