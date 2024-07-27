@@ -14,8 +14,10 @@ const displayOutput = document.getElementById('display');
 
 let inputNumber = null;
 let firstNumber = null;
-let operator = null;
 let secondNumber = null;
+let operator = null;
+let firstOperator = null;
+let secondOperator = null;
 let result = null;
 
 displayOutput.value = 0;
@@ -29,6 +31,10 @@ function substract(a, b) {
 
 function multiply(a, b) {
   return a * b;
+}
+
+function persent(a, b) {
+  return (a * b) / 100;
 }
 
 function divide(a, b) {
@@ -45,6 +51,7 @@ function operate(operator, a, b) {
     case '-' : result = substract(a, b); break;
     case '*' : result = multiply(a, b); break;
     case '/' : result = divide(a, b); break;
+    case '%' : result = persent(a, b); break;
     default  : break;
   }
   return result;
@@ -99,53 +106,48 @@ backspaceBtn.addEventListener('click', () => {
   }
     displayOutput.value = inputNumber;
 });
-/*
-addBtn.addEventListener('click', () => {
-  if (firstNumber === null) { 
-    firstNumber = Number(inputNumber); 
-  }
-  
- 
-  console.log('first number', firstNumber);
-  console.log('second number', secondNumber);
-  operator = '+';
-  inputNumber = null;
-  secondNumber = null;
-});
-*/
 
 functionsBtn.forEach(btn => {
   btn.addEventListener('click', (e) => {
     operat = e.target.id;
     console.log('operat ', operat);
-    operator = null;
+
     switch(operat) {
-      case 'multi'  : operator = '*'; break;
-      case 'divide' : operator = '/'; break;
+      case 'multi'    : operator = '*'; break;
+      case 'divide'   : operator = '/'; break;
       case 'subtract' : operator = '-'; break;
-      case 'add' : operator = '+'; break;
+      case 'add'      : operator = '+'; break;
+      case 'percent'  : operator = '%'; break; 
       default: break;
     }
+
     if (firstNumber === null) {
       firstNumber = Number(inputNumber);
-    }
+    } 
+   
     console.log('fN ', firstNumber);
     console.log('sN ', secondNumber);
     console.log('operator ', operator);
+    
     inputNumber = null;
     secondNumber = null;
-  
   });
 });
 
-equalBtn.addEventListener('click', () => {
+function getResult() {
   if (secondNumber === null) {
     secondNumber = Number(inputNumber);
   }
   result = operate(operator, firstNumber, secondNumber);
   displayOutput.value = result;
   firstNumber = result;
+  secondNumber = null;
+  inputNumber = null;
   console.log('secondNumber ' , secondNumber);
   console.log('firstNumber ', firstNumber);
+}
+
+equalBtn.addEventListener('click', () => {
+  getResult();
   inputNumber = result;
 });
