@@ -6,41 +6,40 @@
 
 body {
   font-family: 'Verdana', sans-serif;
-  font-size: 33px;
 }
 .container {
-  width: 75%;
+  width: 1200px;
   margin: 0 auto;
   margin-top: 50px;
 }
 
 .calculator {
   width: 250px;
-  height: 300px;
+  height: 350px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  background-color: #abc;
+  background-color: #17181a;
+  border-radius: 20px;
 }
 
 .display {
   width: 90%;
-  height: 50px;
-  background-color: #777;
-  color: #fff;
+  height: 100px;
 }
 
 .display-output {
   width: 95%;
-  height: 95%;
+  height: 45%;
   padding: 5px;
   margin: 5px;
   color: white;
   background-color: transparent;
   text-align: right;
   border: none;
-  font-size: 20px;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 .keyboard {
@@ -61,18 +60,33 @@ body {
 }
 
 .btn {
-  padding: 5px;
-  font-size: 14px;
-  width: 30px;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 24px;
+  width: 35px;
+  height: 35px;
+  border-radius: 10px;
+  border: none;
 }
 
 .btn-number, .btn-point {
-  background-color: #3468d2;
+  background-color: #303136;
   color: #fff;
 }
 
 .btn-function {
-  background-color: #cfa;
+  background-color: #8673FF;
 }
 
+.btn:hover {
+  background-color: #fca;
+  color: #321;
+}
+
+.btn:active {
+  border: 2px solid brown;
+  color: white;
+  background-color: red;
+  box-shadow: 3px 3px 3px darkred;
+}
 

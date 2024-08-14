@@ -10,17 +10,20 @@ const percentBtn = document.getElementById('percent');
 const numbersBtn = document.querySelectorAll('.btn-number');
 const pointBtn = document.getElementById('point');
 const functionsBtn = document.querySelectorAll('.btn-func');
-const displayOutput = document.getElementById('display');
+const resultOutput = document.getElementById('result');
+const expressionOutput = document.getElementById('expression');
 
-let inputNumber = null;
-let firstNumber = null;
-let secondNumber = null;
-let operator = null;
-let firstOperator = null;
-let secondOperator = null;
-let result = null;
+let inputNumber = '';
+let firstNumber = '';
+let secondNumber = '';
+let operator = '';
+let result = '';
+let operation = false;
+let oper = '';
 
-displayOutput.value = 0;
+resultOutput.value = 0;
+expressionOutput.value = 0;
+
 function add(a, b) {
   return a + b;
 }
@@ -45,7 +48,7 @@ function divide(a, b) {
 }
 
 function operate(operator, a, b) {
-  let result = null;
+  result = 0;
   switch (operator) {
     case '+' : result = add(a, b); break;
     case '-' : result = substract(a, b); break;
@@ -58,45 +61,37 @@ function operate(operator, a, b) {
 }
 
 clearBtn.addEventListener('click', () => {
-  displayOutput.value = '';  
-  inputNumber = null;
-  firstNumber = null;
-  secondNumber = null;
-  operator = null;
-});
-
-numbersBtn.forEach(btn => {
-  btn.addEventListener('click', (e) => {
-    if (inputNumber === null || inputNumber === '0' || "Divide by zero!" ) {
-      inputNumber = e.target.textContent;
-    } else {
-      inputNumber += e.target.textContent;
-    }
-    displayOutput.value = inputNumber;
-  });
+  resultOutput.value = '';  
+  expressionOutput.value = '';
+  inputNumber = '';
+  firstNumber = '';
+  secondNumber = '';
+  operator = '';
+  oper = '';
+  operation = false;
 });
 
 signBtn.addEventListener('click', () => {
   inputNumber = -inputNumber + '';
-  displayOutput.value = inputNumber;
+  expressionOutput.value = inputNumber;
 });
 
 pointBtn.addEventListener('click', (e) => {
-  if (inputNumber === null) {
+  if (inputNumber === '') {
     inputNumber = 0 + e.target.textContent;
-    displayOutput.value = inputNumber;
+    expressionOutput.value = inputNumber;
     
   } 
   if (inputNumber.includes('.')) {
     return;
   } else {
     inputNumber += e.target.textContent;
-    displayOutput.value = inputNumber;
+    expressionOutput.value = inputNumber;
   }
 });
 
 backspaceBtn.addEventListener('click', () => {
-  if (inputNumber === null || inputNumber.length <= 1 ) {
+  if (inputNumber === '' || inputNumber.length <= 1 ) {
     inputNumber = '0';
   } else {
     inputNumber = inputNumber.slice(0, -1);
@@ -104,50 +99,76 @@ backspaceBtn.addEventListener('click', () => {
       inputNumber = '0';
     }
   }
-    displayOutput.value = inputNumber;
+    expressionOutput.value = inputNumber;
 });
+
+numbersBtn.forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    let number = e.target.textContent;
+    
+    if (inputNumber === '' || inputNumber === '0' || result === "Divide by zero!" ) {
+      inputNumber = number;
+      firstNumber = inputNumber;
+      expressionOutput.value = firstNumber;
+    } else 
+    
+    if (secondNumber === '' && oper === '') {
+      inputNumber += number;
+      firstNumber = inputNumber;
+      console.log(`firstNumber ${firstNumber}`);
+      expressionOutput.value = firstNumber;
+    } else {
+      secondNumber = secondNumber + number;
+      inputNumber = secondNumber;
+      console.log(`secondNumber ${secondNumber}`);
+      expressionOutput.value = firstNumber + operator + secondNumber;
+    }
+  });
+});
+
 
 functionsBtn.forEach(btn => {
   btn.addEventListener('click', (e) => {
-    operat = e.target.id;
-    console.log('operat ', operat);
-
+    const operat = e.target.id;
+    
     switch(operat) {
       case 'multi'    : operator = '*'; break;
       case 'divide'   : operator = '/'; break;
       case 'subtract' : operator = '-'; break;
       case 'add'      : operator = '+'; break;
       case 'percent'  : operator = '%'; break; 
-      default: break;
     }
+    if (oper === operator) return;
 
-    if (firstNumber === null || 'Divide by zero!') {
-      firstNumber = Number(inputNumber);
-    } 
-   
-    console.log('fN ', firstNumber);
-    console.log('sN ', secondNumber);
-    console.log('operator ', operator);
-    
-    inputNumber = null;
-    secondNumber = null;
+    if (firstNumber !== '' && secondNumber !== '' && oper !== '') {
+      console.log(`first ${firstNumber} second ${secondNumber}`);
+      getResult();
+      console.log(`first ${firstNumber} second ${secondNumber}`);
+      operation = true;
+      oper = operator;
+      resultOutput.value = result;
+      secondNumber = '';
+      expressionOutput.value = result + operator;
+    } else {
+      oper = operator;
+      expressionOutput.value = firstNumber + oper;
+    }
   });
 });
 
 function getResult() {
-  if (secondNumber === null) {
-    secondNumber = Number(inputNumber);
-  }
-  result = operate(operator, firstNumber, secondNumber);
-  displayOutput.value = result;
+  console.log('first = ', firstNumber, 'second = ', secondNumber);
+  firstNumber = +firstNumber; 
+  secondNumber = +secondNumber;
+  result = operate(oper, firstNumber, secondNumber);
   firstNumber = result;
-  secondNumber = null;
-  inputNumber = null;
-  console.log('secondNumber ' , secondNumber);
-  console.log('firstNumber ', firstNumber);
+  secondNumber = '';
 }
 
 equalBtn.addEventListener('click', () => {
   getResult();
-  inputNumber = result;
+  operation = true;
+  resultOutput.value = result;
+  oper = '';
+  secondNumber = '';
 });
